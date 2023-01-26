@@ -75,6 +75,7 @@
     <Compile Include="Data\Agent.cs">
       <DependentUpon>SaveEyesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\AgentPartial.cs" />
     <Compile Include="Data\AgentPriorityHistory.cs">
       <DependentUpon>SaveEyesModel.tt</DependentUpon>
     </Compile>

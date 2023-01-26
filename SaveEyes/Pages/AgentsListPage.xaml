@@ -21,46 +21,64 @@
         </Grid.RowDefinitions>
 
 
-        <TextBox x:Name="tbSearch" TextChanged="tbSearch_TextChanged"/>
+        <TextBox x:Name="tbSearch"
+                 TextChanged="tbSearch_TextChanged"
+                 Text="{Binding Search}"/>
 
         <ComboBox x:Name="cbSort" Grid.Column="1"
                   SelectedIndex="0"
-                  ItemsSource="{Binding Sortings.Keys}"
-                  SelectionChanged="cbSort_SelectionChanged"/>
+                  SelectionChanged="cbSort_SelectionChanged"
+                  SelectedItem="{Binding Sort}"
+                  ItemsSource="{Binding Sortings.Keys}"/>
         <ComboBox x:Name="cbFilter" Grid.Column="2"
                   ItemsSource="{Binding AgentTypes}"
-                  SelectedIndex="0"
                   SelectionChanged="cbFilter_SelectionChanged"
+                  SelectedIndex="0"
+                  SelectedItem="{Binding Type}"
                   DisplayMemberPath="Title"/>
 
-        <ListView x:Name="lvAgents" ItemsSource="{Binding Agents}"
+        <ListView x:Name="lvAgents" ItemsSource="{Binding AgentsForFilters}"
                   Grid.Row="1" Grid.ColumnSpan="3"
+                  HorizontalContentAlignment="Stretch"
                   SelectionChanged="lvAgents_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="100" >
-                            <Image.Source>
-                                <Binding Path="LogoImage">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>/Resources/picture.png</ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-                        <TextBlock FontSize="20" Text="{Binding Title}"/>
-                    </StackPanel>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <Image Width="100" >
+                                    <Image.Source>
+                                        <Binding Path="LogoImage">
+                                            <Binding.TargetNullValue>
+                                                <ImageSource>/Resources/picture.png</ImageSource>
+                                            </Binding.TargetNullValue>
+                                        </Binding>
+                                    </Image.Source>
+                                </Image>
+                                <StackPanel Margin="10 0">
+                                    <TextBlock FontSize="20" >
+                                        <Run Text="{Binding AgentType.Title}"/>
+                                        <Run Text="|"/>
+                                        <Run Text="{Binding Title}"/>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding SellsCount, StringFormat='{}0 продаж за год' }"/>
+                                    <TextBlock Text="{Binding Phone}"/>
+                                    <TextBlock >
+                                        <Run Text="Приоритетность"/>
+                                        <Run Text="{Binding Priority}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Discount, StringFormat='{}{0}%'}" 
+                                       FontSize="18"
+                                       Margin="10"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Orientation="Horizontal" Grid.Row="2"
-                    Grid.Column="2"
-                    HorizontalAlignment="Right">
-            <Button x:Name="PreviousPageButton" Content="&lt;" Click="PreviousPageButton_Click"/>
-            <StackPanel Orientation="Horizontal" x:Name="PageNumbersPanel">
-
-            </StackPanel>
-            <Button x:Name="NextPageButton" Content="&gt;" Click="NextPageButton_Click"/>
-        </StackPanel>
+        <StackPanel x:Name="Paginator" Orientation="Horizontal" Grid.Row="2"/>
     </Grid>
 </Page>

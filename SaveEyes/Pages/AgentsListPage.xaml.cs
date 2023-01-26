@@ -24,21 +24,72 @@ namespace SaveEyes.Pages
     public partial class AgentsListPage : Page
     {
         public IEnumerable<Agent> Agents { get; set; }
-        public IEnumerable<Agent> AgentsForFilters { get; set; }
+        public IEnumerable<Agent> AgentsForFilters { 
+            get 
+            {
+                var agents = Agents.Where(x => x.Title.ToLower().Contains(Search)
+                                                    || x.Email.Contains(Search)
+                                                    || x.Phone.Contains(Search))
+                            .OrderBy(Sortings[Sort])
+                            .Where(x => Type.Title == "Все типы" ? true: x.AgentType == Type)
+                            .Skip((PageNumber - 1)* 10).Take(10);
+                if (Sort.Contains("возрастанию"))
+                    agents = agents.Reverse();
+
+
+                return agents;
+            }
+            set 
+            {
+                Agents = value;
+                Paginator.Children.Clear();
+
+                // добавляем переход на предыдущую страницу
+                Paginator.Children.Add(new TextBlock { Text = " < " });
+
+                // в цикле добавляем страницы
+                for (int i = 1; i < Agents.Count() / 10; i++)
+                    Paginator.Children.Add(
+                        new TextBlock { Text = " " + i.ToString() + " " });
+
+                // добавляем переход на следующую страницу
+                Paginator.Children.Add(new TextBlock { Text = " > " });
+
+                // проходимся в цикле по всем сохданным элементам и задаем им обработчик PreviewMouseDown
+                foreach (TextBlock tb in Paginator.Children)
+                    tb.PreviewMouseDown += PrevPage_PreviewMouseDown;
+            }
+        }
+        public string Search { get; set; } = "";
+        public string Sort { get; set; }
+        public AgentType Type { get; set; } = new AgentType { Title = "Все типы" };
+
         public List<AgentType> AgentTypes { get; set; }
         public Dictionary<string, Func<Agent, object>> Sortings { get; set; }
 
-        private int PageNumber = 1;
+        private int _pageNumber = 1;
+
+        private int PageNumber { 
+            get 
+            {
+                return _pageNumber;
+            }
+            set 
+            {
+                _pageNumber = value;
+                InvalidateVisual();
+            }
+        }
         public AgentsListPage()
         {
             InitializeComponent();
-            Agents = DataAccess.GetAgents();
+            AgentsForFilters = DataAccess.GetAgents();
             Sortings = new Dictionary<string, Func<Agent, object>>
             {
                 { "Наименование по возрастанию", x => x.Title },
                 { "Наименование по убыванию", x => x.Title },
-                //{ "Размер скидки по возрастанию", x => x },
-                //{ "Размер скидки по убыванию", x => x },
+                { "Размер скидки по возрастанию", x => x.Discount },
+                { "Размер скидки по убыванию", x => x.Discount },
                 { "Приоритет по возрастанию", x => x.Priority },
                 { "Приоритет по убыванию", x => x.Priority },
             };
@@ -62,94 +113,41 @@ namespace SaveEyes.Pages
             //}
         }
 
-        private void ApplyFilters()
-        {
-            if (cbSort.SelectedItem != null && cbFilter.SelectedItem != null)
-            {
-                var searchText = tbSearch.Text.ToLower();
-                var selectedType = cbFilter.SelectedItem as AgentType;
-                var selectedSorting = cbSort.SelectedItem as string;
-                AgentsForFilters = Agents.Where(x => x.Title.ToLower().Contains(searchText) 
-                                                    || x.Email.Contains(searchText)
-                                                    || x.Phone.Contains(searchText));
-                if (selectedType.Title != "Все типы")
-                    AgentsForFilters = AgentsForFilters.Where(x => x.AgentType == selectedType);
-
-                if (selectedSorting != null)
-                {
-                    if (selectedSorting.Contains("по убыванию"))
-                        AgentsForFilters = AgentsForFilters.OrderByDescending(Sortings[selectedSorting]);
-                    else
-                        AgentsForFilters = AgentsForFilters.OrderBy(Sortings[selectedSorting]);
-                }
-
-                lvAgents.ItemsSource = new ObservableCollection<Agent>(AgentsForFilters.Skip((PageNumber - 1) * 10).Take(10));
-                SetPageNumbers();
-            }
-        }
-
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ApplyFilters();
+            lvAgents.ItemsSource = AgentsForFilters;
         }
 
         private void cbSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ApplyFilters();
+            lvAgents.ItemsSource = AgentsForFilters;
         }
 
         private void cbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ApplyFilters();
+            lvAgents.ItemsSource = AgentsForFilters;
         }
-        private void SetPageNumbers()
+
+        private void PrevPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            PageNumbersPanel.Children.Clear();
-            int pagesCount = AgentsForFilters.Count() % 10 == 0 ? AgentsForFilters.Count() / 10 : AgentsForFilters.Count() / 10 + 1;
-            for (int i = 0; i < pagesCount; i++)
+            switch ((sender as TextBlock).Text)
             {
-                var hyperlink = new Hyperlink()
-                {
-                    Foreground = new SolidColorBrush(Colors.Black),
-                    FontSize = 25,
-                    TextDecorations = null
-                };
-                hyperlink.Inlines.Add($"{i + 1}");
-                hyperlink.Click += NavigateToPage;
-
-                var textBlock = new TextBlock() { Margin = new Thickness(5, 0, 5, 0) };
-
-                if (i == PageNumber - 1)
-                    hyperlink.TextDecorations = TextDecorations.Underline;
-
-                textBlock.Inlines.Add(hyperlink);
-
-                PageNumbersPanel.Children.Add(textBlock);
+                case " < ":
+                    // переход на предыдущую страницу с проверкой счётчика
+                    if (PageNumber > 0) PageNumber--;
+                    return;
+                case " > ":
+                    // переход на следующую страницу с проверкой счётчика
+                    if (PageNumber < Agents.Count() / 10) PageNumber++;
+                    return;
+                default:
+                    // в остальных элементах просто номер странцы
+                    // учитываем, что надо обрезать пробелы (Trim)
+                    PageNumber = Convert.ToInt32(
+                        (sender as TextBlock).Text.Trim());
+                    return;
             }
-        }
-        private void NavigateToPage(object sender, RoutedEventArgs e)
-        {
-            PageNumber = int.Parse(((sender as Hyperlink).Inlines.FirstOrDefault() as Run).Text);
-            (sender as Hyperlink).TextDecorations = TextDecorations.Underline;
-            ApplyFilters();
-        }
-        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PageNumber > 1)
-            {
-                PageNumber--;
-                ApplyFilters();
-            }
-        }
 
-        private void NextPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            int pagesCount = AgentsForFilters.Count() % 10 == 0 ? AgentsForFilters.Count() / 10 : AgentsForFilters.Count() / 10 + 1;
-            if (PageNumber < pagesCount)
-            {
-                PageNumber++;
-                ApplyFilters();
-            }
         }
     }
 }
