@@ -17,5 +17,10 @@ namespace SaveEyes.Data
                 SaveEyesEntities.GetContext().Agents.Add(agent);
             SaveEyesEntities.GetContext().SaveChanges();
         }
+
+        public static List<AgentType> GetAgentTypes()
+        {
+            return SaveEyesEntities.GetContext().AgentTypes.ToList();
+        }
     }
 }

@@ -17,7 +17,21 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
+
+        <TextBox x:Name="tbSearch" TextChanged="tbSearch_TextChanged"/>
+
+        <ComboBox x:Name="cbSort" Grid.Column="1"
+                  SelectedIndex="0"
+                  ItemsSource="{Binding Sortings.Keys}"
+                  SelectionChanged="cbSort_SelectionChanged"/>
+        <ComboBox x:Name="cbFilter" Grid.Column="2"
+                  ItemsSource="{Binding AgentTypes}"
+                  SelectedIndex="0"
+                  SelectionChanged="cbFilter_SelectionChanged"
+                  DisplayMemberPath="Title"/>
 
         <ListView x:Name="lvAgents" ItemsSource="{Binding Agents}"
                   Grid.Row="1" Grid.ColumnSpan="3"
@@ -25,7 +39,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image >
+                        <Image Width="100" >
                             <Image.Source>
                                 <Binding Path="LogoImage">
                                     <Binding.TargetNullValue>
@@ -39,5 +53,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Orientation="Horizontal" Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right">
+            <Button x:Name="PreviousPageButton" Content="&lt;" Click="PreviousPageButton_Click"/>
+            <StackPanel Orientation="Horizontal" x:Name="PageNumbersPanel">
+
+            </StackPanel>
+            <Button x:Name="NextPageButton" Content="&gt;" Click="NextPageButton_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
