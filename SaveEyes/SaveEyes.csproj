@@ -64,7 +64,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Data\ProductPartial.cs" />
+    <Compile Include="Windows\AgentWindow.xaml.cs">
+      <DependentUpon>AgentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ChangePriorityWindow.xaml.cs">
+      <DependentUpon>ChangePriorityWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ProductCountWindow.xaml.cs">
+      <DependentUpon>ProductCountWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="SaveEyesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -129,11 +139,23 @@
     <Compile Include="Data\Supplier.cs">
       <DependentUpon>SaveEyesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="SaveEyesWindow.xaml.cs">
+      <DependentUpon>SaveEyesWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AgentsListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AgentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ChangePriorityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProductCountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

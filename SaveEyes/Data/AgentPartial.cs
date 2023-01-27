@@ -8,7 +8,7 @@ namespace SaveEyes.Data
 {
     public partial class Agent
     {
-        public int SellsCount { get => ProductSales.Count; }
+        public int SellsCount { get => ProductSales.Sum(x => x.ProductCount); }
         public int Discount { 
             get 
             {

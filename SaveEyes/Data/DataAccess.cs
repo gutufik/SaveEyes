@@ -22,5 +22,22 @@ namespace SaveEyes.Data
         {
             return SaveEyesEntities.GetContext().AgentTypes.ToList();
         }
+
+        public static void DeleteAgent(Agent agent)
+        {
+            SaveEyesEntities.GetContext().Agents.Remove(agent);
+            SaveEyesEntities.GetContext().SaveChanges();
+        }
+
+        public static List<Product> GetProducts()
+        {
+            return SaveEyesEntities.GetContext().Products.ToList();
+        }
+
+        public static void DeleteProductSale(ProductSale product)
+        {
+            SaveEyesEntities.GetContext().ProductSales.Remove(product);
+            SaveEyesEntities.GetContext().SaveChanges();
+        }
     }
 }

@@ -22,24 +22,22 @@
 
 
         <TextBox x:Name="tbSearch"
-                 TextChanged="tbSearch_TextChanged"
-                 Text="{Binding Search}"/>
+                 TextChanged="tbSearch_TextChanged"/>
 
         <ComboBox x:Name="cbSort" Grid.Column="1"
                   SelectedIndex="0"
-                  SelectionChanged="cbSort_SelectionChanged"
-                  SelectedItem="{Binding Sort}"
+                  SelectionChanged="FiltersChanged"
                   ItemsSource="{Binding Sortings.Keys}"/>
         <ComboBox x:Name="cbFilter" Grid.Column="2"
                   ItemsSource="{Binding AgentTypes}"
-                  SelectionChanged="cbFilter_SelectionChanged"
+                  SelectionChanged="FiltersChanged"
                   SelectedIndex="0"
-                  SelectedItem="{Binding Type}"
                   DisplayMemberPath="Title"/>
 
         <ListView x:Name="lvAgents" ItemsSource="{Binding AgentsForFilters}"
                   Grid.Row="1" Grid.ColumnSpan="3"
                   HorizontalContentAlignment="Stretch"
+                  MouseDoubleClick="lvAgents_MouseDoubleClick"
                   SelectionChanged="lvAgents_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -79,6 +77,24 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel x:Name="Paginator" Orientation="Horizontal" Grid.Row="2"/>
+        <Button x:Name="btnChangePriority" Grid.Row="2" Content="Изменить приоритет"
+                Visibility="Hidden"
+                HorizontalAlignment="Left"
+                    Click="btnChangePriority_Click"/>
+        
+        <Button x:Name="btnAddAgent" Grid.Row="2" Content="Добавить агента"
+                    HorizontalAlignment="Right"
+                    Click="btnAddAgent_Click"/>
+        
+        
+        <StackPanel Orientation="Horizontal"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="3" HorizontalAlignment="Right">
+            <Button x:Name="PreviousPageButton" Content="&lt;" Click="PreviousPageButton_Click"/>
+            <StackPanel Orientation="Horizontal" x:Name="PageNumbersPanel">
+
+            </StackPanel>
+            <Button x:Name="NextPageButton" Content="&gt;" Click="NextPageButton_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
