@@ -1,0 +1,26 @@
+﻿<Window x:Class="SaveEyes.Windows.ChangePriorityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SaveEyes.Windows"
+        mc:Ignorable="d"
+        Title="Изменение приоритета" Height="200" Width="300"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Введите на сколько хотите изменить цену" TextWrapping="Wrap"/>
+        <TextBox x:Name="tbPriority" Grid.Row="1"
+                 Text="{Binding Priority, ValidatesOnDataErrors=true}"/>
+        <Button x:Name="btnSave" Grid.Row="2" Click="btnSave_Click" Content="Ок"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+    </Grid>
+</Window>
