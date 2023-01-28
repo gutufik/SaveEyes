@@ -82,8 +82,8 @@
                 HorizontalAlignment="Left"
                     Click="btnChangePriority_Click"/>
         
-        <Button x:Name="btnAddAgent" Grid.Row="2" Content="Добавить агента"
-                    HorizontalAlignment="Right"
+        <Button x:Name="btnAddAgent" Grid.Row="2" Grid.Column="1" Content="Добавить агента"
+                    HorizontalAlignment="Left"
                     Click="btnAddAgent_Click"/>
         
         

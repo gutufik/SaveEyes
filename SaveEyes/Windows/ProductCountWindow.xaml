@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaveEyes.Windows"
-        Height="150" Width="200"
+        Height="250" Width="250"
         ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,7 +23,7 @@
         <TextBlock Text="Дата" Grid.Row="2"/>
         <DatePicker Grid.Row="3" SelectedDate="{Binding SaleDate}"/>
 
-        <Button x:Name="btnSave" Grid.Row="4" Click="btnSave_Click" Content="Ок"
+        <Button x:Name="btnSave" Grid.Row="4" Click="btnSave_Click" Content="Добавить"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
     </Grid>

@@ -19,7 +19,7 @@
         <TextBlock Text="Введите на сколько хотите изменить цену" TextWrapping="Wrap"/>
         <TextBox x:Name="tbPriority" Grid.Row="1"
                  Text="{Binding Priority, ValidatesOnDataErrors=true}"/>
-        <Button x:Name="btnSave" Grid.Row="2" Click="btnSave_Click" Content="Ок"
+        <Button x:Name="btnSave" Grid.Row="2" Click="btnSave_Click" Content="Изменить"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
     </Grid>
