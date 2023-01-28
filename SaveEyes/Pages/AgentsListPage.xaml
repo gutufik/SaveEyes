@@ -43,7 +43,7 @@
                 <DataTemplate>
                     <Border BorderBrush="Black" BorderThickness="1">
                         <Grid>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Background}">
                                 <Image Width="100" >
                                     <Image.Source>
                                         <Binding Path="LogoImage">

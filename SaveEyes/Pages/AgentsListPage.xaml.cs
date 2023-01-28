@@ -46,12 +46,19 @@ namespace SaveEyes.Pages
                 { "Приоритет по возрастанию", x => x.Priority },
                 { "Приоритет по убыванию", x => x.Priority },
             };
-
+            DataAccess.RefreshList += DataAccess_RefreshList;
             AgentTypes = DataAccess.GetAgentTypes();
             AgentTypes.Insert(0, new AgentType { Title = "Все типы" });
 
 
             DataContext = this;
+        }
+
+        private void DataAccess_RefreshList()
+        {
+            Agents = DataAccess.GetAgents();
+            AgentsForFilters = Agents.ToList();
+            ApplyFilters(true);
         }
 
         private void SetPageNumbers()

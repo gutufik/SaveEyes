@@ -6,6 +6,7 @@
     <Application.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="#B175EE"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Padding" Value="5 2"/>
         </Style>
@@ -22,6 +23,9 @@
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Padding" Value="2"/>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Background" Value="#FFE9F9"/>
         </Style>
     </Application.Resources>
 </Application>

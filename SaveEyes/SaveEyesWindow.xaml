@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaveEyes"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="450" Height="450" MinWidth="800" Width="800">
+        FontFamily="Century Gothic"
+        Title="Глазки-save" MinHeight="450" Height="450" MinWidth="800" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

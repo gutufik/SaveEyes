@@ -9,6 +9,9 @@ namespace SaveEyes.Data
 {
     public static class DataAccess
     {
+        public  delegate void RefreshListDelegate();
+        public static event RefreshListDelegate RefreshList;
+
         public static ObservableCollection<Agent> GetAgents() => new ObservableCollection<Agent>(SaveEyesEntities.GetContext().Agents);
 
         public static void SaveAgent(Agent agent)
@@ -16,6 +19,7 @@ namespace SaveEyes.Data
             if(agent.ID == 0)
                 SaveEyesEntities.GetContext().Agents.Add(agent);
             SaveEyesEntities.GetContext().SaveChanges();
+            RefreshList?.Invoke();
         }
 
         public static List<AgentType> GetAgentTypes()
@@ -27,6 +31,7 @@ namespace SaveEyes.Data
         {
             SaveEyesEntities.GetContext().Agents.Remove(agent);
             SaveEyesEntities.GetContext().SaveChanges();
+            RefreshList?.Invoke();
         }
 
         public static List<Product> GetProducts()
@@ -38,6 +43,7 @@ namespace SaveEyes.Data
         {
             SaveEyesEntities.GetContext().ProductSales.Remove(product);
             SaveEyesEntities.GetContext().SaveChanges();
+            RefreshList?.Invoke();
         }
     }
 }
