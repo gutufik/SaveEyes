@@ -27,8 +27,6 @@ namespace SaveEyes.Windows
         public Agent Agent { get; set; }
         public List<AgentType> AgentTypes { get; set; }
         public List<Product> Products { get; set; }
-        //public List<Material> Materials { get; set; }
-        //public List<Material> ProductMaterials { get; set; }
 
         public string WindowTitle { get; set; }
         public AgentWindow(Agent agent)
@@ -40,10 +38,6 @@ namespace SaveEyes.Windows
 
             AgentTypes = DataAccess.GetAgentTypes();
             Products = DataAccess.GetProducts();
-            //Workshops = DataAccess.GetWorkshops();
-            //Materials = DataAccess.GetMaterials();
-
-            //ProductMaterials = Product.ProductMaterials.Select(x => x.Material).ToList();
 
             DataContext = this;
         }
