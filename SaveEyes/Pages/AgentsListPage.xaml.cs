@@ -107,8 +107,8 @@ namespace SaveEyes.Pages
                     AgentsForFilters = AgentsForFilters.Reverse();
 
                 AgentsForFilters = AgentsForFilters.Where(x => x.Title.ToLower().Contains(text) 
-                                                    || x.Email.Contains(text)
-                                                    || x.Phone.Contains(text)).ToList();
+                                                    || x.Email.ToLower().Contains(text)
+                                                    || x.Phone.ToLower().Contains(text)).ToList();
 
                 lvAgents.ItemsSource = new ObservableCollection<Agent>(AgentsForFilters.Skip((PageNumber - 1) * 10).Take(10).ToList());
             }
